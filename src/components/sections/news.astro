@@ -4,11 +4,7 @@ import NewsCard from "../NewsCard.astro";
 import { fetchTopics } from "../../api/Topics";
 
 let items: { icon?: string; title: string; description: string; link: string }[] = [];
-try {
-    items = await fetchTopics();
-} catch (error) {
-    console.error("Failed to fetch news topics:", error);
-}
+items = await fetchTopics();
 ---
 
 
@@ -22,23 +18,17 @@ try {
                 {items.length === 0 ? (
                     <h1 class="text-xl md:text-2xl 2xl:text-3xl font-bold font-inter">No News</h1>
                 ) : (
-                    items.map((topics) => {
-                        if (!topics.icon) {
-                            topics.icon = 'logos/logo.png';
-                        }
-                        return (
-                            <NewsCard 
-                                icon={topics.icon}
-                                title={topics.title}
-                                description={topics.description}
-                                link={topics.link}
-                            />
-                        );
-                    })
+                    items.map((topics) => (
+                        <NewsCard
+                            icon={topics.icon || "logos/logo.png"}
+                            title={topics.title}
+                            description={topics.description}
+                            link={topics.link}
+                        />
+                    ))
                 )}
             </ul>
         </div>
     </Container>
 </section>
-
 
